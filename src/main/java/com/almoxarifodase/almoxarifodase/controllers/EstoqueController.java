@@ -1,7 +1,6 @@
 package com.almoxarifodase.almoxarifodase.controllers;
 
 import com.almoxarifodase.almoxarifodase.model.DTO.EstoqueDTO;
-import com.almoxarifodase.almoxarifodase.model.entities.Estoque;
 import com.almoxarifodase.almoxarifodase.model.forms.EstoqueForm;
 import com.almoxarifodase.almoxarifodase.service.EstoqueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,12 @@ public class EstoqueController {
     public ResponseEntity<List<EstoqueDTO>> findAll(){
         List<EstoqueDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value = "/estoque/{name}")
+    public ResponseEntity<EstoqueDTO> findOne(@PathVariable String name){
+        EstoqueDTO estoqueDTO = service.findOne(name);
+        return ResponseEntity.ok().body(estoqueDTO);
     }
 
     @PostMapping(value = "/estoque")

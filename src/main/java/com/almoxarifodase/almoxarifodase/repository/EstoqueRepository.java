@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface EstoqueRepository extends JpaRepository<Estoque, Long> {
 
 
-    Estoque findByNomeCanteiro(String nomeCanteiro);
+    Estoque findByNomeEstoque(String nomeEstoque);
 }

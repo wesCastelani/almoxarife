@@ -13,8 +13,8 @@ public class Registro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "nome_canteiro", nullable = false)
-    private String nomeCanteiro;
+    @Column(name = "nome_estoque", nullable = false)
+    private String nomeEstoque;
     @Column(name = "nome_item", nullable = false)
     private String nomeItem;
     @Column(name = "qtd", nullable = false)
@@ -27,9 +27,9 @@ public class Registro {
     public Registro() {
     }
 
-    public Registro(Long id, String nomeCanteiro, Double qtdDeEntrada, String nomeItem, TipoRegistro tipo, Instant moment) {
+    public Registro(Long id, String nomeEstoque, Double qtdDeEntrada, String nomeItem, TipoRegistro tipo, Instant moment) {
         this.id = id;
-        this.nomeCanteiro = nomeCanteiro;
+        this.nomeEstoque = nomeEstoque;
         this.qtd = qtdDeEntrada;
         this.nomeItem = nomeItem;
         this.tipo = tipo;

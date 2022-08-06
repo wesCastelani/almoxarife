@@ -14,8 +14,8 @@ public class Estoque {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="name_canteiro", nullable = false, unique = true)
-    private String nomeCanteiro;
+    @Column(name="name_estoque", nullable = false, unique = true)
+    private String nomeEstoque;
 
     @OneToMany
     private Set<ItemEstoque> itensEmEstoque = new HashSet<>();

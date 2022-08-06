@@ -18,7 +18,7 @@ public class EstoqueDTO {
 
     public EstoqueDTO(Estoque entitiy) {
         this.id = entitiy.getId();
-        this.nomeEstoque = entitiy.getNomeCanteiro();
+        this.nomeEstoque = entitiy.getNomeEstoque();
         this.itens = entitiy.getItensEmEstoque().stream().map(x->new ItemEstoqueDTO(x)).collect(Collectors.toList());
     }
 }

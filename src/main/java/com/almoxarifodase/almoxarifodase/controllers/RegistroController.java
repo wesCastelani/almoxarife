@@ -18,17 +18,23 @@ public class RegistroController {
     @Autowired
     RegistroService service;
 
-    @GetMapping(value = "/registros/canteiro/{nomeCanteiro}")
+    @GetMapping(value = "/registros/{nomeCanteiro}")
     public ResponseEntity<List<RegistroDTO>> listarRegistros(@PathVariable String nomeCanteiro){
         List<RegistroDTO> list = service.findByNomeCanteiro(nomeCanteiro);
         return ResponseEntity.ok().body(list);
     }
 
 
+    @PostMapping(value = "/criarItem")
+    public ResponseEntity<RegistroDTO> criarItem(@RequestBody @Valid RegistroForm form){
+        return ResponseEntity.ok().body(service.criar(form));
+    }
+
     @PostMapping(value = "/adicionarItem")
     public ResponseEntity<RegistroDTO> adicionarItem(@RequestBody @Valid RegistroForm form){
         return ResponseEntity.ok().body(service.adicionar(form));
     }
+
     @PostMapping(value = "/retirarItem")
     public ResponseEntity<RegistroDTO> retirarItem(@RequestBody @Valid RegistroForm form) {
         try {

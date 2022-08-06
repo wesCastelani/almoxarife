@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface RegistroRepository extends JpaRepository<Registro, Long> {
 
-    List<Registro> findByNomeCanteiro(String nomeCanteiro);
+    List<Registro> findByNomeEstoque(String nomeEstoque);
 }
