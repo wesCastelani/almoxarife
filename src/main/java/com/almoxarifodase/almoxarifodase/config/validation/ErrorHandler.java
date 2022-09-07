@@ -3,6 +3,7 @@ package com.almoxarifodase.almoxarifodase.config.validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -48,6 +49,4 @@ public class ErrorHandler {
 
         return dto;
     }
-
-
 }

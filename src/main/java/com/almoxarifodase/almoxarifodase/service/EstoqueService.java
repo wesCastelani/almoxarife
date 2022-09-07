@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,12 +27,7 @@ public class EstoqueService {
     @Autowired
     private ItemEstoqueService itemEstoqueService;
 
-    @Transactional
-    public List<EstoqueDTO> findAll(){
-        List<Estoque> list = estoqueRepository.findAll();
-        return convertListToDTO(list);
-    }
-
+    //Retorna um estoque buscado pelo seu nome
     @Transactional
     public EstoqueDTO findOne(String name){
         Estoque estoque = estoqueRepository.findByNomeEstoque(name);
@@ -45,6 +41,7 @@ public class EstoqueService {
         return new EstoqueDTO(estoque);
     }
 
+    //Quando um item não existe no estoque ele é criado aqui!
     public void criaItemNovoNoEstoque(String nomeEstoque, String nomeItem, Double qtd){
         Estoque estoque = estoqueRepository.findByNomeEstoque(nomeEstoque);
         Item item = itemRepository.findByName(nomeItem);
@@ -53,6 +50,7 @@ public class EstoqueService {
         estoqueRepository.save(estoque);
     }
 
+    //Quanto um item ja existe no estoque aqui é onde ele ADICIONADO (qtd alterada)
     public void adicionaItemNoEstoque(String nomeEstoque, String nomeItem, Double qtd){
         Estoque estoque = estoqueRepository.findByNomeEstoque(nomeEstoque);
         estoque.getItensEmEstoque().forEach(i->{
@@ -63,6 +61,7 @@ public class EstoqueService {
         estoqueRepository.save(estoque);
     }
 
+    //Aqui é onde é feito a retirada de itens
     public void retiraItemDoEstoque(String nomeEstoque, String nomeItem, Double qtd){
         Estoque estoque = estoqueRepository.findByNomeEstoque(nomeEstoque);
         estoque.getItensEmEstoque().forEach(i -> {
@@ -77,21 +76,31 @@ public class EstoqueService {
         estoqueRepository.save(estoque);
     }
 
+    //Busca no banco de dados o estoque pelo ID e o deleta se existente (Retorna true para deletado e false para notfound)
+    @Transactional
+    public Boolean delete(Long id) {
+        Optional<Estoque> estoque = estoqueRepository.findById(id);
+        if(estoque.isPresent()){
+            estoqueRepository.delete(estoque.get());
+            return true;
+        }
+        return false;
+    }
+
+
+    //Converte o objeto ItemForm informado pelo usuário para o objeto Estoque
     private Estoque convertToEstoque(EstoqueForm form) {
         Estoque estoque = new Estoque();
         estoque.setNomeEstoque(form.getName());
         return estoque;
     }
-    @Transactional
-    public void adicionaItemNoEstoque(Estoque e, ItemEstoque itens){
-        e.getItensEmEstoque().add(itens);
-        estoqueRepository.save(e);
-    }
 
+    //Converte um objeto Estoque para EstoqueDTO para retornos
     private EstoqueDTO convertToDTO(Estoque estoque){
         return new EstoqueDTO(estoque);
     }
 
+    //Converte uma lista de Estoques para EstoquesDTO para retornos
     private static List<EstoqueDTO> convertListToDTO(List<Estoque> estoques) {
         return estoques.stream().map(EstoqueDTO::new).collect(Collectors.toList());
     }

@@ -19,6 +19,7 @@ public class RegistroService {
     @Autowired
     EstoqueService estoqueService;
 
+    //Cria um registro no momento em que o item é criado no estoque
     @Transactional
     public RegistroDTO criar(RegistroForm form){
         Registro register = convertToRegistro(form ,Instant.now());
@@ -27,6 +28,7 @@ public class RegistroService {
         return convertToDTO(register);
     }
 
+    //Cria um registro sempre que uma adição é feita a algum item
     @Transactional
     public RegistroDTO adicionar(RegistroForm form){
         Registro register = convertToRegistro(form ,Instant.now());
@@ -35,6 +37,7 @@ public class RegistroService {
         return convertToDTO(register);
     }
 
+    //Cria um registro de retirada sempre que ela é realizada
     @Transactional
     public RegistroDTO retirar(RegistroForm form) throws Exception {
         Registro register = convertToRegistro(form ,Instant.now());
@@ -42,18 +45,15 @@ public class RegistroService {
         registroRepository.save(register);
         return convertToDTO(register);
     }
-    @Transactional
-    public List<RegistroDTO> findAll(){
-        List<Registro> list = registroRepository.findAll();
-        return list.stream().map(x -> new RegistroDTO(x)).collect(Collectors.toList());
-    }
 
+    //Lista todos os registros de um determinado estoque baseado no seu nome
     @Transactional
     public List<RegistroDTO> findByNomeCanteiro(String nomeEstoque) {
         List<Registro> list = registroRepository.findByNomeEstoque(nomeEstoque);
         return list.stream().map(x -> new RegistroDTO(x)).collect(Collectors.toList());
     }
 
+    //Converte um objeto RegistroForm para um objeto Registro para cria-lo no banco
     private Registro convertToRegistro(RegistroForm form, Instant moment){
         Registro registro = new Registro();
         registro.setNomeEstoque(form.getNomeEstoque());
@@ -64,6 +64,7 @@ public class RegistroService {
         return registro;
     }
 
+    //Converte um objeto Registro para RegistroDTO para retornos
     private RegistroDTO convertToDTO(Registro registro){
         return new RegistroDTO(registro);
     }

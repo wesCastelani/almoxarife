@@ -18,23 +18,27 @@ public class RegistroController {
     @Autowired
     RegistroService service;
 
-    @GetMapping(value = "/registros/{nomeCanteiro}")
-    public ResponseEntity<List<RegistroDTO>> listarRegistros(@PathVariable String nomeCanteiro){
-        List<RegistroDTO> list = service.findByNomeCanteiro(nomeCanteiro);
+    //Listas os registros baseados no nome do estoque
+    @GetMapping(value = "/registros/{nomeEstoque}")
+    public ResponseEntity<List<RegistroDTO>> listarRegistros(@PathVariable String nomeEstoque){
+        List<RegistroDTO> list = service.findByNomeCanteiro(nomeEstoque);
         return ResponseEntity.ok().body(list);
     }
 
 
+    //Cira um novo item dentro do estoque (Utilizado quando item não existir no estoque)
     @PostMapping(value = "/criarItem")
     public ResponseEntity<RegistroDTO> criarItem(@RequestBody @Valid RegistroForm form){
         return ResponseEntity.ok().body(service.criar(form));
     }
 
+    //Adiciona itens no estoque (Utilizado quando item já existir no estoque)
     @PostMapping(value = "/adicionarItem")
     public ResponseEntity<RegistroDTO> adicionarItem(@RequestBody @Valid RegistroForm form){
         return ResponseEntity.ok().body(service.adicionar(form));
     }
 
+    //Retirar itens do estoque
     @PostMapping(value = "/retirarItem")
     public ResponseEntity<RegistroDTO> retirarItem(@RequestBody @Valid RegistroForm form) {
         try {

@@ -15,6 +15,5 @@ public class ItemDTO {
     public ItemDTO(Item entity){
         this.id = entity.getId();
         this.name = entity.getName();
-        //this.qtd = entity.getQtd();
     }
 }
